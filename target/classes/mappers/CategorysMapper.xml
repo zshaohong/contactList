@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cj.dao.CategorysMapper" >
+  <resultMap id="BaseResultMap" type="com.cj.pojo.Categorys" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="categorys_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="category_mark" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, categorys_name, category_mark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from categorys
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from categorys
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cj.pojo.Categorys" >
+    insert into categorys (id, user_id, categorys_name, 
+      category_mark)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{categorysName,jdbcType=VARCHAR}, 
+      #{categoryMark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cj.pojo.Categorys" >
+    insert into categorys
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="categorysName != null" >
+        categorys_name,
+      </if>
+      <if test="categoryMark != null" >
+        category_mark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="categorysName != null" >
+        #{categorysName,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryMark != null" >
+        #{categoryMark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cj.pojo.Categorys" >
+    update categorys
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="categorysName != null" >
+        categorys_name = #{categorysName,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryMark != null" >
+        category_mark = #{categoryMark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cj.pojo.Categorys" >
+    update categorys
+    set user_id = #{userId,jdbcType=INTEGER},
+      categorys_name = #{categorysName,jdbcType=VARCHAR},
+      category_mark = #{categoryMark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <delete id="deleteByUserId" parameterType="int">
+    DELETE FROM categorys
+    WHERE user_id = #{userId}
+  </delete>
+
+  <select id="selectByUserIdCategoryId" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM categorys
+    WHERE id = #{categoryId}
+    and user_id = #{userId}
+  </select>
+
+  <select id="selectByNameMark" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM categorys
+    WHERE categorys_name = #{categoryName}
+    and
+    <choose>
+      <when test="categoryMark!= null">
+        category_mark = #{categoryMark}
+      </when>
+      <otherwise>
+        category_mark is null
+      </otherwise>
+    </choose>
+
+  </select>
+</mapper>

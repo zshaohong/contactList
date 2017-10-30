@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cj.dao.ContactsMapper" >
+  <resultMap id="BaseResultMap" type="com.cj.pojo.Contacts" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="categorys_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="contact_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="contact_sex" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="contact_phone" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="contact_email" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="contact_desc" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, categorys_id, contact_name, contact_sex, contact_phone, contact_email, 
+    contact_desc
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from contacts
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from contacts
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cj.pojo.Contacts" >
+    insert into contacts (id, user_id, categorys_id, 
+      contact_name, contact_sex, contact_phone, 
+      contact_email, contact_desc)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{categorysId,jdbcType=INTEGER}, 
+      #{contactName,jdbcType=VARCHAR}, #{contactSex,jdbcType=VARCHAR}, #{contactPhone,jdbcType=VARCHAR}, 
+      #{contactEmail,jdbcType=VARCHAR}, #{contactDesc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cj.pojo.Contacts" >
+    insert into contacts
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="categorysId != null" >
+        categorys_id,
+      </if>
+      <if test="contactName != null" >
+        contact_name,
+      </if>
+      <if test="contactSex != null" >
+        contact_sex,
+      </if>
+      <if test="contactPhone != null" >
+        contact_phone,
+      </if>
+      <if test="contactEmail != null" >
+        contact_email,
+      </if>
+      <if test="contactDesc != null" >
+        contact_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="categorysId != null" >
+        #{categorysId,jdbcType=INTEGER},
+      </if>
+      <if test="contactName != null" >
+        #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactSex != null" >
+        #{contactSex,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPhone != null" >
+        #{contactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="contactEmail != null" >
+        #{contactEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="contactDesc != null" >
+        #{contactDesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cj.pojo.Contacts" >
+    update contacts
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="categorysId != null" >
+        categorys_id = #{categorysId,jdbcType=INTEGER},
+      </if>
+      <if test="contactName != null" >
+        contact_name = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactSex != null" >
+        contact_sex = #{contactSex,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPhone != null" >
+        contact_phone = #{contactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="contactEmail != null" >
+        contact_email = #{contactEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="contactDesc != null" >
+        contact_desc = #{contactDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cj.pojo.Contacts" >
+    update contacts
+    set user_id = #{userId,jdbcType=INTEGER},
+      categorys_id = #{categorysId,jdbcType=INTEGER},
+      contact_name = #{contactName,jdbcType=VARCHAR},
+      contact_sex = #{contactSex,jdbcType=VARCHAR},
+      contact_phone = #{contactPhone,jdbcType=VARCHAR},
+      contact_email = #{contactEmail,jdbcType=VARCHAR},
+      contact_desc = #{contactDesc,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <delete id="deleteByUserId" parameterType="int">
+    DELETE FROM contacts
+    WHERE user_id = #{userId}
+  </delete>
+
+  <select id="selectByUserIdContactId" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM contacts
+    WHERE id = #{contactId}
+    and user_id = #{userId}
+
+  </select>
+
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="int">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM contacts
+    WHERE user_id = #{userId}
+  </select>
+</mapper>
